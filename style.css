@@ -1,45 +1,58 @@
 body {
   margin: 0;
-  font-family: Arial;
-  background: #0f0f0f;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, #0f0f0f, #1c1c1c);
   color: #fff;
   text-align: center;
 }
 
 header {
-  padding: 15px;
-  font-size: 20px;
+  padding: 20px;
+  font-size: 24px;
   font-weight: bold;
-  background: #1a1a1a;
+  background: #121212;
+}
+
+.menu {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.menu button {
+  flex: none;
+  margin: 5px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+  background: #2a2a2a;
+  color: white;
 }
 
 .container {
   padding: 20px;
 }
 
+.card {
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
 button {
   width: 90%;
   padding: 15px;
-  margin: 10px;
-  font-size: 18px;
+  margin: 10px auto;
   border: none;
-  border-radius: 10px;
-  background: #1f1f1f;
-  color: #fff;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff4d6d, #ff758f);
+  color: white;
+  font-weight: bold;
 }
 
-button:hover {
-  background: #333;
-}
-
-.tela {
-  display: none;
-}
-
-.ativa {
-  display: block;
-}
-
-.voltar {
-  background: #444;
+button:active {
+  transform: scale(0.96);
 }
