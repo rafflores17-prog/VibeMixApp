@@ -1,126 +1,105 @@
 let categoriaAtual = "motivacao";
+let contadorSessao = 0;
 
-// BANCO DE FRASES (Pode adicionar quantas quiser)
-let frases = {
+const bancoFrases = {
   motivacao: [
-    "🔥 Grandes conquistas exigem disciplina diária e foco constante.",
-    "💪 Você é mais forte do que pensa, mais capaz do que imagina.",
-    "🚀 O sucesso é construído nos dias em que você não quer continuar.",
-    "✨ Pequenos passos hoje geram grandes resultados amanhã.",
-    "🏆 A vitória pertence a quem persiste."
+    "🔥 O sucesso é a soma de pequenos esforços repetidos dia após dia.",
+    "🚀 Sua única limitação é aquela que você impõe em sua mente.",
+    "💪 Não pare quando estiver cansado, pare quando tiver terminado.",
+    "✨ Grandes coisas nunca vêm de zonas de conforto."
   ],
   zoeira: [
-    "😂 Eu não sou preguiçoso, estou em modo economia de energia.",
-    "🤣 Trabalhar não mata, mas pra que arriscar?",
-    "😎 Minha cama me entende melhor que muita gente.",
-    "🤣 Hoje eu tô tipo Wi-Fi ruim: sem conexão com nada."
+    "😂 Meu plano era ser rico, mas meu plano de dados acabou antes.",
+    "🤣 Se ferrar fosse dinheiro, eu seria o Elon Musk.",
+    "😎 Status: Em busca da minha dignidade perdida no final de semana."
   ],
   bomdia: [
-    "🌅 Bom dia! Que seu dia seja leve e cheio de coisas boas.",
-    "☀️ Acorda pra vencer hoje!",
-    "🌻 Que hoje seja melhor que ontem."
+    "🌅 Que o seu café seja forte e a sua segunda-feira seja curta!",
+    "☀️ Bom dia! Hoje é um novo dia para cometer erros antigos.",
+    "🌻 Acorde com determinação e durma com satisfação."
   ],
   indireta: [
-    "😏 Nem tudo que parece é… e nem todo mundo é de verdade.",
-    "👀 Tem gente que muda quando precisa.",
-    "🤐 Ficar quieto às vezes é a melhor resposta."
+    "😏 Não sou Google, mas você só me procura quando precisa.",
+    "🤐 Algumas pessoas são como nuvens: quando somem, o dia fica lindo.",
+    "😌 Maturidade é ver a indireta e não dar palco para o show."
+  ],
+  status: [
+    "📱 Vivendo momentos, não apenas postando histórias.",
+    "✨ Menos perfeição, mais autenticidade.",
+    "🔥 Onde quer que você vá, leve sua própria luz."
   ]
 };
 
-// GERAR FRASE (Corrigido para não travar)
 function gerarFrase() {
-  let lista = frases[categoriaAtual];
-  let random = lista[Math.floor(Math.random() * lista.length)];
+  const lista = bancoFrases[categoriaAtual];
+  const fraseAleatoria = lista[Math.floor(Math.random() * lista.length)];
   
-  // Animação suave na troca de frase
-  let elementoTexto = document.getElementById("textoFrase");
-  elementoTexto.style.opacity = 0;
+  const pFrase = document.getElementById("textoFrase");
+  pFrase.style.opacity = 0;
   
   setTimeout(() => {
-    elementoTexto.innerText = random;
-    elementoTexto.style.opacity = 1;
-  }, 200);
-
-  atualizarView();
+    pFrase.innerText = fraseAleatoria;
+    pFrase.style.opacity = 1;
+    contarView();
+  }, 150);
 }
 
-// ATUALIZAR CATEGORIA
-function mudarCategoria(cat, elementoBotao) {
+function mudarCategoria(cat, btn) {
   categoriaAtual = cat;
-  
-  // Atualiza o visual do menu
-  let botoes = document.querySelectorAll(".menu button");
-  botoes.forEach(b => b.classList.remove("ativo"));
-  elementoBotao.classList.add("ativo");
-
+  document.querySelectorAll('.menu button').forEach(b => b.classList.remove('ativo'));
+  btn.classList.add('ativo');
   gerarFrase();
 }
 
-// COMPARTILHAR WHATSAPP
+function contarView() {
+  contadorSessao++;
+  document.getElementById("views").innerText = "Lidas: " + contadorSessao;
+}
+
 function compartilhar() {
-  let texto = document.getElementById("textoFrase").innerText;
-  // Dica Web2App: Algumas WebViews exigem intent:// em vez de https://wa.me/
-  let url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(texto);
-  window.open(url, "_blank");
+  const texto = document.getElementById("textoFrase").innerText;
+  const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto + " \n\nEnviado por 🔥 VibeMix")}`;
+  window.open(link, "_blank");
 }
 
-// FAVORITOS: SALVAR
 function salvarFavorito() {
-  let texto = document.getElementById("textoFrase").innerText;
-  let fav = JSON.parse(localStorage.getItem("favoritos") || "[]");
-
-  if (!fav.includes(texto)) {
-    fav.push(texto);
-    localStorage.setItem("favoritos", JSON.stringify(fav));
-    alert("Frase salva nos favoritos! ❤️");
+  const texto = document.getElementById("textoFrase").innerText;
+  let favs = JSON.parse(localStorage.getItem("meusFavoritos") || "[]");
+  
+  if (!favs.includes(texto)) {
+    favs.push(texto);
+    localStorage.setItem("meusFavoritos", JSON.stringify(favs));
+    alert("❤️ Salva nos favoritos!");
   } else {
-    alert("Você já favoritou essa frase! 😉");
+    alert("✨ Já está nos seus favoritos!");
   }
 }
 
-// FAVORITOS: ABRIR E LISTAR
 function abrirFavoritos() {
-  let fav = JSON.parse(localStorage.getItem("favoritos") || "[]");
-  let listaHtml = "";
+  const favs = JSON.parse(localStorage.getItem("meusFavoritos") || "[]");
+  const container = document.getElementById("listaFavoritos");
+  container.innerHTML = favs.length ? "" : "<p>Você ainda não salvou frases.</p>";
 
-  if (fav.length === 0) {
-    listaHtml = "<p style='color:#ccc; font-size:14px;'>Nenhum favorito salvo ainda.</p>";
-  } else {
-    fav.forEach((f, index) => {
-      listaHtml += `
-        <div class="fav-item">
-          <p>${f}</p>
-          <button onclick="removerFavorito(${index})">❌</button>
-        </div>
-      `;
-    });
-  }
-
-  document.getElementById("listaFavoritos").innerHTML = listaHtml;
+  favs.forEach((f, i) => {
+    container.innerHTML += `
+      <div class="fav-item">
+        <span>${f}</span>
+        <button onclick="removerFavorito(${i})">🗑️</button>
+      </div>`;
+  });
   document.getElementById("modalFavoritos").style.display = "flex";
 }
 
-// FAVORITOS: REMOVER
-function removerFavorito(index) {
-  let fav = JSON.parse(localStorage.getItem("favoritos") || "[]");
-  fav.splice(index, 1);
-  localStorage.setItem("favoritos", JSON.stringify(fav));
-  abrirFavoritos(); // Atualiza a lista na hora
+function removerFavorito(i) {
+  let favs = JSON.parse(localStorage.getItem("meusFavoritos") || "[]");
+  favs.splice(i, 1);
+  localStorage.setItem("meusFavoritos", JSON.stringify(favs));
+  abrirFavoritos();
 }
 
-// FAVORITOS: FECHAR
 function fecharFavoritos() {
   document.getElementById("modalFavoritos").style.display = "none";
 }
 
-// CONTADOR DE VIEWS (Contagem de frases lidas na sessão)
-let viewsSessao = 0;
-function atualizarView() {
-  viewsSessao++;
-  document.getElementById("views").innerText = "Lidas hoje: " + viewsSessao;
-}
-
-// INICIAR
-window.onload = () => {
-  gerarFrase();
-};
+// Inicia com uma frase
+window.onload = gerarFrase;
