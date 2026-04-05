@@ -1,6 +1,5 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-/* Fundo totalmente preto para evitar o rastro branco do AdMob */
 html, body {
   margin: 0;
   padding: 0;
@@ -31,7 +30,6 @@ header {
   font-size: 12px;
 }
 
-/* GRID DO MENU */
 .menu {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -46,7 +44,6 @@ header {
   padding: 12px 5px;
   border-radius: 10px;
   font-size: 11px;
-  transition: 0.2s;
 }
 
 .menu button.ativo {
@@ -56,7 +53,7 @@ header {
   font-weight: bold;
 }
 
-.container { padding: 10px 20px; padding-bottom: 80px; } /* Espaço para o Banner não cobrir botões */
+.container { padding: 10px 20px; padding-bottom: 90px; }
 
 .card {
   background: #0d0d0d;
@@ -71,7 +68,7 @@ header {
   position: relative;
 }
 
-#textoFrase { font-size: 18px; line-height: 1.6; margin: 0; transition: opacity 0.2s; }
+#textoFrase { font-size: 18px; line-height: 1.6; margin: 0; }
 
 #views {
   position: absolute;
@@ -102,10 +99,8 @@ header {
   border: 1px solid #222;
   background: #111;
   color: white;
-  font-size: 14px;
 }
 
-/* MODAL FAVORITOS */
 .modal {
   display: none;
   position: fixed;
@@ -133,7 +128,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-align: left;
 }
 
 .fav-item button { background: none; border: none; color: #ff4d6d; font-size: 20px; }
