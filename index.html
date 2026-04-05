@@ -5,54 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VibeMix</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0f0f0f;
-      color: #fff;
-      text-align: center;
-    }
-
-    header {
-      padding: 15px;
-      font-size: 20px;
-      font-weight: bold;
-      background: #1a1a1a;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    button {
-      width: 90%;
-      padding: 15px;
-      margin: 10px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      background: #1f1f1f;
-      color: #fff;
-    }
-
-    button:hover {
-      background: #333;
-    }
-
-    .tela {
-      display: none;
-    }
-
-    .ativa {
-      display: block;
-    }
-
-    .voltar {
-      margin-top: 20px;
-      background: #444;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -76,27 +29,25 @@
   <!-- FRASES -->
   <div id="frases" class="container tela">
     <h2>💬 Frases</h2>
-    <p>Em breve...</p>
+
+    <p id="textoFrase">Clique no botão para gerar uma frase</p>
+
+    <button onclick="gerarFrase()">✨ Gerar frase</button>
+    <button onclick="copiarFrase()">📋 Copiar</button>
+
     <button class="voltar" onclick="voltar()">⬅ Voltar</button>
   </div>
 
   <!-- SORTE -->
   <div id="sorte" class="container tela">
     <h2>🔮 Sorte do dia</h2>
-    <p>Em breve...</p>
+    <p id="textoSorte">Clique para ver sua sorte</p>
+
+    <button onclick="gerarSorte()">🔮 Ver sorte</button>
+
     <button class="voltar" onclick="voltar()">⬅ Voltar</button>
   </div>
 
-  <script>
-    function abrir(id){
-      document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-      document.getElementById(id).classList.add('ativa');
-    }
-
-    function voltar(){
-      abrir('home');
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
