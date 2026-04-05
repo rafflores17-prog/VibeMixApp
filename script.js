@@ -1,60 +1,60 @@
-// NAVEGAÇÃO
-function abrir(id){
-  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-  document.getElementById(id).classList.add('ativa');
+let categoriaAtual = "motivacao";
+
+let frases = {
+
+motivacao: [
+"🔥 Grandes conquistas exigem persistência diária.",
+"💪 Você é mais forte do que imagina.",
+"🚀 O sucesso nasce da disciplina.",
+"✨ Continue mesmo sem motivação.",
+"🌟 Tudo começa com um passo."
+],
+
+zoeira: [
+"😂 Eu não sou preguiçoso, estou no modo economia de energia.",
+"🤣 Trabalhar? Só se for deitado.",
+"😎 A vida tá difícil, mas eu tô mais ainda.",
+"😂 Se conselho fosse bom, vendia.",
+"🤣 Eu tentando ser fitness, mas o lanche me ama."
+],
+
+bomdia: [
+"🌅 Bom dia! Que seu dia seja leve e cheio de coisas boas.",
+"☀️ Acorda pra vencer hoje!",
+"🌻 Que hoje seja melhor que ontem.",
+"🙏 Gratidão por mais um dia.",
+"✨ Comece o dia com energia positiva."
+],
+
+indireta: [
+"😏 Engraçado como muda quando precisa.",
+"👀 Nem tudo é como parece.",
+"🤐 Melhor ficar quieto mesmo.",
+"😌 Eu observo tudo em silêncio.",
+"🔥 A verdade sempre aparece."
+]
+
+};
+
+function mudarCategoria(cat){
+  categoriaAtual = cat;
+  gerarFrase();
 }
-
-function voltar(){
-  abrir('home');
-}
-
-// FRASES
-let frases = [
-  "Você é mais forte do que imagina.",
-  "Tudo pode mudar em um dia.",
-  "Confie no seu processo.",
-  "Grandes coisas levam tempo.",
-  "Continue, mesmo sem motivação.",
-  "Você já venceu muita coisa até aqui."
-];
-
-let ultimaFrase = "";
 
 function gerarFrase(){
-  let nova;
+  let lista = frases[categoriaAtual];
+  let random = lista[Math.floor(Math.random() * lista.length)];
 
-  do {
-    nova = frases[Math.floor(Math.random() * frases.length)];
-  } while(nova === ultimaFrase);
-
-  ultimaFrase = nova;
-
-  document.getElementById("textoFrase").innerText = nova;
+  document.getElementById("textoFrase").innerText = random;
 }
 
-function copiarFrase(){
+function compartilhar(){
   let texto = document.getElementById("textoFrase").innerText;
-  navigator.clipboard.writeText(texto);
-  alert("Frase copiada!");
-}
 
-// SORTE DO DIA
-let sortes = [
-  "Hoje será um dia incrível.",
-  "Uma surpresa está chegando.",
-  "Algo bom vai acontecer.",
-  "Evite decisões impulsivas hoje.",
-  "Alguém pensa em você."
-];
-
-function gerarSorte(){
-  let hoje = new Date().toDateString();
-  let salva = localStorage.getItem("sorte_"+hoje);
-
-  if(!salva){
-    salva = sortes[Math.floor(Math.random() * sortes.length)];
-    localStorage.setItem("sorte_"+hoje, salva);
+  if(navigator.share){
+    navigator.share({ text: texto });
+  } else {
+    navigator.clipboard.writeText(texto);
+    alert("Copiado!");
   }
-
-  document.getElementById("textoSorte").innerText = salva;
 }
