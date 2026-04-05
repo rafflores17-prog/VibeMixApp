@@ -62,7 +62,6 @@ button:active {
   font-size: 18px;
   line-height: 1.6;
 }
-
 </style>
 </head>
 
@@ -82,13 +81,11 @@ button:active {
   <h2>💬 Frases Motivacionais</h2>
 
   <div class="card">
-    <p id="textoFrase" class="frase">
-      Clique para gerar uma frase incrível ✨
-    </p>
+    <p id="textoFrase" class="frase">Clique para gerar uma frase incrível ✨</p>
   </div>
 
   <button onclick="gerarFrase()">✨ Nova frase</button>
-  <button onclick="compartilhar()">📤 Compartilhar</button>
+  <button onclick="compartilharFrase()">📤 Compartilhar</button>
 
   <button class="voltar" onclick="voltar()">⬅ Voltar</button>
 </div>
@@ -98,9 +95,7 @@ button:active {
   <h2>🔮 Sorte do Dia</h2>
 
   <div class="card">
-    <p id="textoSorte" class="frase">
-      Descubra sua sorte hoje ✨
-    </p>
+    <p id="textoSorte" class="frase">Descubra sua sorte hoje ✨</p>
   </div>
 
   <button onclick="gerarSorte()">🔮 Ver sorte</button>
@@ -117,14 +112,14 @@ button:active {
     <div id="respostas"></div>
   </div>
 
-  <button onclick="iniciarQuiz()">▶ Começar</button>
+  <button id="btnStart" onclick="iniciarQuiz()">▶ Começar</button>
 
   <button class="voltar" onclick="voltar()">⬅ Voltar</button>
 </div>
 
 <script>
 
-// NAVEGAÇÃO
+// ================= NAVEGAÇÃO =================
 function abrir(id){
   document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
   document.getElementById(id).classList.add('ativa');
@@ -132,25 +127,39 @@ function abrir(id){
 
 function voltar(){
   abrir('home');
+  document.getElementById("btnStart").style.display = "block";
 }
 
-// ================= FRASES ONLINE =================
+// ================= FRASES =================
 async function gerarFrase(){
   try {
     let res = await fetch("https://api.quotable.io/random");
+
+    if(!res.ok) throw new Error();
+
     let data = await res.json();
 
     document.getElementById("textoFrase").innerText =
       "✨ " + data.content + "\n\n— " + data.author;
 
   } catch {
-    document.getElementById("textoFrase").innerText =
-      "✨ Nunca desista, porque grandes coisas levam tempo. 💪🔥";
+
+    let frasesLocal = [
+      "🔥 Grandes conquistas exigem coragem para começar e persistência para continuar até o fim.",
+      "💪 Você é mais forte do que pensa, mais capaz do que imagina e mais perto do sucesso do que acredita.",
+      "🚀 O sucesso não vem da sorte, vem da disciplina diária e da coragem de continuar.",
+      "✨ Pequenos passos dados hoje podem criar resultados gigantes no futuro.",
+      "🌟 Não espere o momento perfeito, faça o momento se tornar perfeito.",
+      "🔥 Continue avançando mesmo devagar, o importante é nunca parar."
+    ];
+
+    let random = frasesLocal[Math.floor(Math.random() * frasesLocal.length)];
+
+    document.getElementById("textoFrase").innerText = random;
   }
 }
 
-// COMPARTILHAR
-function compartilhar(){
+function compartilharFrase(){
   let texto = document.getElementById("textoFrase").innerText;
 
   if(navigator.share){
@@ -167,7 +176,8 @@ let sortes = [
   "🔥 Você está mais perto do sucesso do que imagina.",
   "💰 Uma oportunidade financeira pode surgir.",
   "❤️ Um momento especial está chegando.",
-  "🚀 Hoje é um ótimo dia para tentar algo novo."
+  "🚀 Hoje é um ótimo dia para tentar algo novo.",
+  "🌟 Algo inesperado vai te surpreender positivamente."
 ];
 
 function gerarSorte(){
@@ -179,7 +189,8 @@ function gerarSorte(){
     localStorage.setItem("sorte_"+hoje, salva);
   }
 
-  document.getElementById("textoSorte").innerText = salva;
+  document.getElementById("textoSorte").innerText =
+    "🔮 Sua sorte de hoje:\n\n" + salva;
 }
 
 // ================= QUIZ =================
@@ -199,6 +210,14 @@ let perguntas = [
       { texto: "Amigos 🎉", tipo: "social" },
       { texto: "Aventura 🌍", tipo: "aventureiro" }
     ]
+  },
+  {
+    pergunta: "Qual seu estilo?",
+    opcoes: [
+      { texto: "Tranquilo 😌", tipo: "calmo" },
+      { texto: "Comunicativo 😄", tipo: "social" },
+      { texto: "Radical ⚡", tipo: "aventureiro" }
+    ]
   }
 ];
 
@@ -208,6 +227,7 @@ let pontuacao = { calmo: 0, social: 0, aventureiro: 0 };
 function iniciarQuiz(){
   atual = 0;
   pontuacao = { calmo: 0, social: 0, aventureiro: 0 };
+  document.getElementById("btnStart").style.display = "none";
   mostrarPergunta();
 }
 
@@ -245,13 +265,13 @@ function mostrarResultado(){
   let texto = "";
 
   if(resultado === "calmo"){
-    texto = "🧘 Você é equilibrado, tranquilo e pensa antes de agir.";
+    texto = "🧘 Você é equilibrado, tranquilo e gosta de paz.";
   }
   if(resultado === "social"){
-    texto = "🎉 Você é comunicativo, gosta de pessoas e energia positiva.";
+    texto = "🎉 Você é comunicativo e adora interagir.";
   }
   if(resultado === "aventureiro"){
-    texto = "🔥 Você é ousado, gosta de desafios e novas experiências.";
+    texto = "🔥 Você gosta de desafios e viver intensamente.";
   }
 
   document.getElementById("pergunta").innerText = "Resultado:";
