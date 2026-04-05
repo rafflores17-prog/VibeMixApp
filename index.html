@@ -3,28 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VibeMix</title>
+  <title>VibeMix - Frases</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <header>
-    🔥 VibeMix
+    <div class="logo">🔥 VibeMix</div>
     <button id="btnVerFavoritos" onclick="abrirFavoritos()">❤️ Meus Favoritos</button>
   </header>
 
-  <div class="menu" id="menuCategorias">
+  <div class="menu">
     <button class="ativo" onclick="mudarCategoria('motivacao', this)">✨ Motivação</button>
     <button onclick="mudarCategoria('zoeira', this)">😂 Zoeira</button>
     <button onclick="mudarCategoria('bomdia', this)">🌅 Bom dia</button>
     <button onclick="mudarCategoria('indireta', this)">😏 Indireta</button>
+    <button onclick="mudarCategoria('status', this)">📱 Status</button>
   </div>
 
   <div class="container">
     <div class="card">
-      <p id="textoFrase">Carregando frases incríveis... 🔥</p>
-      <span id="views">Visualizadas: 0</span>
+      <p id="textoFrase">Escolha uma categoria e brilhe! 🔥</p>
+      <span id="views">Lidas: 0</span>
     </div>
 
     <button class="btn-principal" onclick="gerarFrase()">✨ Gerar Nova Frase</button>
