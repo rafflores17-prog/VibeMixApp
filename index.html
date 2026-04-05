@@ -5,280 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VibeMix</title>
 
+<link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-<style>
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(180deg, #0f0f0f, #1c1c1c);
-  color: #fff;
-  text-align: center;
-}
-
-header {
-  padding: 20px;
-  font-size: 24px;
-  font-weight: 700;
-  background: #121212;
-}
-
-.container {
-  padding: 20px;
-}
-
-.card {
-  background: #1a1a1a;
-  padding: 25px;
-  border-radius: 15px;
-  margin-top: 20px;
-}
-
-button {
-  width: 90%;
-  padding: 15px;
-  margin: 10px auto;
-  font-size: 16px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff4d6d, #ff758f);
-  color: #fff;
-  font-weight: bold;
-  display: block;
-}
-
-button:active {
-  transform: scale(0.96);
-}
-
-.tela { display: none; }
-.ativa { display: block; }
-
-.voltar {
-  background: #444;
-}
-
-.frase {
-  font-size: 18px;
-  line-height: 1.6;
-}
-</style>
 </head>
 
 <body>
 
 <header>🔥 VibeMix</header>
 
-<!-- HOME -->
-<div id="home" class="container tela ativa">
-  <button onclick="abrir('quiz')">🧠 Quiz</button>
-  <button onclick="abrir('frases')">💬 Frases</button>
-  <button onclick="abrir('sorte')">🔮 Sorte do dia</button>
+<!-- MENU -->
+<div class="menu">
+  <button onclick="mudarCategoria('motivacao')">✨ Motivação</button>
+  <button onclick="mudarCategoria('zoeira')">😂 Zoeira</button>
+  <button onclick="mudarCategoria('bomdia')">🌅 Bom dia</button>
+  <button onclick="mudarCategoria('indireta')">😏 Indireta</button>
 </div>
 
-<!-- FRASES -->
-<div id="frases" class="container tela">
-  <h2>💬 Frases Motivacionais</h2>
+<!-- CONTEÚDO -->
+<div class="container">
 
   <div class="card">
-    <p id="textoFrase" class="frase">Clique para gerar uma frase incrível ✨</p>
+    <p id="textoFrase">Clique para gerar uma frase 🔥</p>
   </div>
 
   <button onclick="gerarFrase()">✨ Nova frase</button>
-  <button onclick="compartilharFrase()">📤 Compartilhar</button>
+  <button onclick="compartilhar()">📤 Compartilhar</button>
 
-  <button class="voltar" onclick="voltar()">⬅ Voltar</button>
 </div>
 
-<!-- SORTE -->
-<div id="sorte" class="container tela">
-  <h2>🔮 Sorte do Dia</h2>
-
-  <div class="card">
-    <p id="textoSorte" class="frase">Descubra sua sorte hoje ✨</p>
-  </div>
-
-  <button onclick="gerarSorte()">🔮 Ver sorte</button>
-
-  <button class="voltar" onclick="voltar()">⬅ Voltar</button>
-</div>
-
-<!-- QUIZ -->
-<div id="quiz" class="container tela">
-  <h2>🧠 Quiz</h2>
-
-  <div class="card">
-    <p id="pergunta">Clique para começar</p>
-    <div id="respostas"></div>
-  </div>
-
-  <button id="btnStart" onclick="iniciarQuiz()">▶ Começar</button>
-
-  <button class="voltar" onclick="voltar()">⬅ Voltar</button>
-</div>
-
-<script>
-
-// ================= NAVEGAÇÃO =================
-function abrir(id){
-  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-  document.getElementById(id).classList.add('ativa');
-}
-
-function voltar(){
-  abrir('home');
-  document.getElementById("btnStart").style.display = "block";
-}
-
-// ================= FRASES =================
-async function gerarFrase(){
-  try {
-    let res = await fetch("https://api.quotable.io/random");
-
-    if(!res.ok) throw new Error();
-
-    let data = await res.json();
-
-    document.getElementById("textoFrase").innerText =
-      "✨ " + data.content + "\n\n— " + data.author;
-
-  } catch {
-
-    let frasesLocal = [
-      "🔥 Grandes conquistas exigem coragem para começar e persistência para continuar até o fim.",
-      "💪 Você é mais forte do que pensa, mais capaz do que imagina e mais perto do sucesso do que acredita.",
-      "🚀 O sucesso não vem da sorte, vem da disciplina diária e da coragem de continuar.",
-      "✨ Pequenos passos dados hoje podem criar resultados gigantes no futuro.",
-      "🌟 Não espere o momento perfeito, faça o momento se tornar perfeito.",
-      "🔥 Continue avançando mesmo devagar, o importante é nunca parar."
-    ];
-
-    let random = frasesLocal[Math.floor(Math.random() * frasesLocal.length)];
-
-    document.getElementById("textoFrase").innerText = random;
-  }
-}
-
-function compartilharFrase(){
-  let texto = document.getElementById("textoFrase").innerText;
-
-  if(navigator.share){
-    navigator.share({ text: texto });
-  } else {
-    navigator.clipboard.writeText(texto);
-    alert("Frase copiada!");
-  }
-}
-
-// ================= SORTE =================
-let sortes = [
-  "✨ Hoje algo incrível vai acontecer na sua vida.",
-  "🔥 Você está mais perto do sucesso do que imagina.",
-  "💰 Uma oportunidade financeira pode surgir.",
-  "❤️ Um momento especial está chegando.",
-  "🚀 Hoje é um ótimo dia para tentar algo novo.",
-  "🌟 Algo inesperado vai te surpreender positivamente."
-];
-
-function gerarSorte(){
-  let hoje = new Date().toDateString();
-  let salva = localStorage.getItem("sorte_"+hoje);
-
-  if(!salva){
-    salva = sortes[Math.floor(Math.random() * sortes.length)];
-    localStorage.setItem("sorte_"+hoje, salva);
-  }
-
-  document.getElementById("textoSorte").innerText =
-    "🔮 Sua sorte de hoje:\n\n" + salva;
-}
-
-// ================= QUIZ =================
-let perguntas = [
-  {
-    pergunta: "Como você reage a desafios?",
-    opcoes: [
-      { texto: "Com calma 🧘", tipo: "calmo" },
-      { texto: "Falando com alguém 🗣️", tipo: "social" },
-      { texto: "Parto pra ação 🔥", tipo: "aventureiro" }
-    ]
-  },
-  {
-    pergunta: "O que você prefere?",
-    opcoes: [
-      { texto: "Silêncio 🌙", tipo: "calmo" },
-      { texto: "Amigos 🎉", tipo: "social" },
-      { texto: "Aventura 🌍", tipo: "aventureiro" }
-    ]
-  },
-  {
-    pergunta: "Qual seu estilo?",
-    opcoes: [
-      { texto: "Tranquilo 😌", tipo: "calmo" },
-      { texto: "Comunicativo 😄", tipo: "social" },
-      { texto: "Radical ⚡", tipo: "aventureiro" }
-    ]
-  }
-];
-
-let atual = 0;
-let pontuacao = { calmo: 0, social: 0, aventureiro: 0 };
-
-function iniciarQuiz(){
-  atual = 0;
-  pontuacao = { calmo: 0, social: 0, aventureiro: 0 };
-  document.getElementById("btnStart").style.display = "none";
-  mostrarPergunta();
-}
-
-function mostrarPergunta(){
-  let p = perguntas[atual];
-  document.getElementById("pergunta").innerText = p.pergunta;
-
-  let div = document.getElementById("respostas");
-  div.innerHTML = "";
-
-  p.opcoes.forEach(op => {
-    let btn = document.createElement("button");
-    btn.innerText = op.texto;
-
-    btn.onclick = () => {
-      pontuacao[op.tipo]++;
-      atual++;
-
-      if(atual < perguntas.length){
-        mostrarPergunta();
-      } else {
-        mostrarResultado();
-      }
-    };
-
-    div.appendChild(btn);
-  });
-}
-
-function mostrarResultado(){
-  let resultado = Object.keys(pontuacao).reduce((a, b) =>
-    pontuacao[a] > pontuacao[b] ? a : b
-  );
-
-  let texto = "";
-
-  if(resultado === "calmo"){
-    texto = "🧘 Você é equilibrado, tranquilo e gosta de paz.";
-  }
-  if(resultado === "social"){
-    texto = "🎉 Você é comunicativo e adora interagir.";
-  }
-  if(resultado === "aventureiro"){
-    texto = "🔥 Você gosta de desafios e viver intensamente.";
-  }
-
-  document.getElementById("pergunta").innerText = "Resultado:";
-  document.getElementById("respostas").innerHTML = "<p>" + texto + "</p>";
-}
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
