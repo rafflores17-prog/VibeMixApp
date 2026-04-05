@@ -30,7 +30,6 @@ const bancoFrases = {
   ]
 };
 
-// Gera a frase com efeito suave
 function gerarFrase() {
   const lista = bancoFrases[categoriaAtual];
   const fraseAleatoria = lista[Math.floor(Math.random() * lista.length)];
@@ -52,18 +51,17 @@ function mudarCategoria(cat, btn) {
   gerarFrase();
 }
 
-// CORREÇÃO DO WHATSAPP AQUI
+// LINK VERCEL ATUALIZADO AQUI
 function compartilhar() {
   const frase = document.getElementById("textoFrase").innerText;
-  const linkApp = "https://fflores17-prog.github.io/VibeMix/"; // Seu link
+  const meuLinkVercel = "https://vibemix-xi.vercel.app/"; 
   
-  // Formatação limpa para o WhatsApp
-  const mensagem = `*VibeMix:* \n\n"${frase}"\n\nVeja mais no app: ${linkApp}`;
+  // Mensagem formatada com o seu link real
+  const mensagem = `*VibeMix:* \n\n"${frase}"\n\nVeja mais no app: ${meuLinkVercel}`;
   
-  // Codifica para evitar erros de caracteres estranhos
   const msgFinal = encodeURIComponent(mensagem);
   
-  // Tenta abrir o protocolo direto do app primeiro
+  // Abre o WhatsApp diretamente
   window.location.href = `whatsapp://send?text=${msgFinal}`;
 }
 
