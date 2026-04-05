@@ -1,41 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VibeMix</title>
-
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeMix</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>🔥 VibeMix</header>
+  <header>
+    🔥 VibeMix
+    <button id="btnVerFavoritos" onclick="abrirFavoritos()">❤️ Meus Favoritos</button>
+  </header>
 
-<!-- MENU -->
-<div class="menu">
-  <button onclick="mudarCategoria('motivacao')">✨ Motivação</button>
-  <button onclick="mudarCategoria('zoeira')">😂 Zoeira</button>
-  <button onclick="mudarCategoria('bomdia')">🌅 Bom dia</button>
-  <button onclick="mudarCategoria('indireta')">😏 Indireta</button>
-</div>
-
-<div class="container">
-
-  <div class="card">
-    <p id="textoFrase">Carregando frases incríveis... 🔥</p>
+  <div class="menu" id="menuCategorias">
+    <button class="ativo" onclick="mudarCategoria('motivacao', this)">✨ Motivação</button>
+    <button onclick="mudarCategoria('zoeira', this)">😂 Zoeira</button>
+    <button onclick="mudarCategoria('bomdia', this)">🌅 Bom dia</button>
+    <button onclick="mudarCategoria('indireta', this)">😏 Indireta</button>
   </div>
 
-  <p id="views">🔥 0 visualizações</p>
+  <div class="container">
+    <div class="card">
+      <p id="textoFrase">Carregando frases incríveis... 🔥</p>
+      <span id="views">Visualizadas: 0</span>
+    </div>
 
-  <button onclick="gerarFrase()">✨ Nova frase</button>
-  <button onclick="compartilhar()">📤 Compartilhar no WhatsApp</button>
-  <button onclick="salvarFavorito()">❤️ Favoritar</button>
+    <button class="btn-principal" onclick="gerarFrase()">✨ Gerar Nova Frase</button>
+    
+    <div class="botoes-acao">
+      <button class="btn-secundario" onclick="compartilhar()">📤 WhatsApp</button>
+      <button class="btn-secundario" onclick="salvarFavorito()">❤️ Salvar</button>
+    </div>
+  </div>
 
-</div>
+  <div id="modalFavoritos" class="modal">
+    <div class="modal-content">
+      <h2>Meus Favoritos ❤️</h2>
+      <div id="listaFavoritos"></div>
+      <button class="btn-fechar" onclick="fecharFavoritos()">Fechar</button>
+    </div>
+  </div>
 
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
